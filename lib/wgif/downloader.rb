@@ -1,4 +1,4 @@
-require 'viddl-rb'
+require 'youtube-dl.rb'
 require 'typhoeus'
 require 'wgif/download_bar'
 require 'wgif/exceptions'
@@ -12,13 +12,6 @@ module WGif
 
     def initialize
       @cache = WGif::VideoCache.new
-    end
-
-    def video_url(youtube_url)
-      urls = ViddlRb.get_urls(youtube_url)
-      urls.first
-    rescue
-      raise WGif::VideoNotFoundException
     end
 
     def video_id(youtube_url)
@@ -35,8 +28,8 @@ module WGif
       if cached_clip
         cached_clip
       else
-        temp = load_clip(id, youtube_url)
-        video = WGif::Video.new(id, temp.path)
+        path = load_clip(id, youtube_url)
+        video = WGif::Video.new(id, path)
         video
       end
     end
@@ -58,23 +51,11 @@ module WGif
       end
     end
 
-    def request_clip(youtube_url, output_file)
-      clip_url = video_url(youtube_url)
-      request = Typhoeus::Request.new clip_url
-      create_progress_bar(request, output_file)
-      request.run
-    end
-
     def load_clip(id, youtube_url)
       FileUtils.mkdir_p '/tmp/wgif'
-      temp = File.open("/tmp/wgif/#{id}", 'wb')
-      begin
-        clip = request_clip(youtube_url, temp)
-        fail WGif::VideoNotFoundException unless clip.response_code == 200
-      ensure
-        temp.close
-      end
-      temp
+      path = "/tmp/wgif/#{id}"
+      YoutubeDL.download youtube_url, output: path
+      path + '.webm'
     end
   end
 end
