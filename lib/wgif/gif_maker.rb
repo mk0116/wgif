@@ -1,4 +1,4 @@
-require 'RMagick'
+require 'rmagick'
 
 module WGif
   class GifMaker
