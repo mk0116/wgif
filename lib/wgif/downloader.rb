@@ -54,11 +54,11 @@ module WGif
     def load_clip(id, youtube_url)
       FileUtils.mkdir_p '/tmp/wgif'
       path = "/tmp/wgif/#{id}"
-      full_path = Dir.entries("/tmp/wgif").last
-      if full_path == '..'
+      full_path = Dir.entries("/tmp/wgif").select {|e| e.start_with?(id)}.first
+      if full_path.nil?
         YoutubeDL.download youtube_url, output: path
       end
-      "/tmp/wgif/#{Dir.entries("/tmp/wgif").last}"
+      "/tmp/wgif/#{Dir.entries("/tmp/wgif").select {|e| e.start_with?(id)}.first}"
     end
   end
 end
