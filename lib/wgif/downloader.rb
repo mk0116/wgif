@@ -58,7 +58,7 @@ module WGif
       if full_path == '..'
         YoutubeDL.download youtube_url, output: path
       end
-      Dir.entries("/tmp/wgif").last
+      "/tmp/wgif/#{Dir.entries("/tmp/wgif").last}"
     end
   end
 end
