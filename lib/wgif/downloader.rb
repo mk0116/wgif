@@ -11,7 +11,7 @@ module WGif
   class Downloader
 
     def initialize
-      @cache = WGif::VideoCache.new
+
     end
 
     def video_id(youtube_url)
@@ -24,14 +24,8 @@ module WGif
 
     def get_video(youtube_url)
       id = video_id youtube_url
-      cached_clip = @cache.get(id)
-      if cached_clip
-        cached_clip
-      else
-        path = load_clip(id, youtube_url)
-        video = WGif::Video.new(id, path)
-        video
-      end
+      path = load_clip(id, youtube_url)
+      WGif::Video.new(id, path)
     end
 
     private
