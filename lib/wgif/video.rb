@@ -8,8 +8,8 @@ module WGif
     def initialize(name, filepath)
       @name = name
       @clip = FFMPEG::Movie.new(filepath)
-      FileUtils.mkdir_p '/tmp/wgif/'
-      @logger = Logger.new("/tmp/wgif/#{name}.log")
+      FileUtils.mkdir_p "/tmp/wgif/#{name}/"
+      @logger = Logger.new("/tmp/wgif/#{name}/#{name}.log")
       FFMPEG.logger = @logger
     end
 
@@ -17,8 +17,8 @@ module WGif
       options = {
         custom: "-ss #{start_timestamp} -t 00:00:#{format('%06.3f', duration)}"
       }
-      transcode(@clip, "/tmp/wgif/#{@name}-clip.mov", options)
-      WGif::Video.new "#{@name}-clip", "/tmp/wgif/#{@name}-clip.mov"
+      transcode(@clip, "/tmp/wgif/#{@name}/#{@name}-clip.mov", options)
+      WGif::Video.new "#{@name}-clip", "/tmp/wgif/#{@name}/#{@name}-clip.mov"
     end
 
     def to_frames(options = {})
@@ -28,19 +28,19 @@ module WGif
       else
         framerate = 24
       end
-      transcode(@clip, "/tmp/wgif/frames/\%5d.png", "-vf fps=#{framerate}")
+      transcode(@clip, "/tmp/wgif/#{@name}/frames/\%5d.png", "-vf fps=#{framerate}")
       open_frame_dir
     end
 
     private
 
     def make_frame_dir
-      FileUtils.rm Dir.glob('/tmp/wgif/frames/*.png')
-      FileUtils.mkdir_p '/tmp/wgif/frames'
+      FileUtils.rm Dir.glob("/tmp/wgif/#{@name}/frames/*.png")
+      FileUtils.mkdir_p "/tmp/wgif/#{@name}/frames"
     end
 
     def open_frame_dir
-      Dir.glob('/tmp/wgif/frames/*.png').sort
+      Dir.glob("/tmp/wgif/#{@name}/frames/*.png").sort
     end
 
     def transcode(clip, file, options)

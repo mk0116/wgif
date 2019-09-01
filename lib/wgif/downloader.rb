@@ -46,16 +46,16 @@ module WGif
     end
 
     def load_clip(id, youtube_url)
-      FileUtils.mkdir_p '/tmp/wgif'
-      path = "/tmp/wgif/#{id}"
+      FileUtils.mkdir_p "/tmp/wgif/#{id}"
+      path = "/tmp/wgif/#{id}/#{id}"
       if video_file_name(id).nil?
         YoutubeDL.download youtube_url, output: path
       end
-      "/tmp/wgif/#{video_file_name(id)}"
+      "/tmp/wgif/#{id}/#{video_file_name(id)}"
     end
 
     def video_file_name(id)
-      Dir.entries("/tmp/wgif").select {|e| e.start_with?(id) && !e.end_with?('mov') && !e.end_with?('log')}.first
+      Dir.entries("/tmp/wgif/#{id}").select {|e| e.start_with?(id) && !e.end_with?('mov') && !e.end_with?('log')}.first
     end
   end
 end
