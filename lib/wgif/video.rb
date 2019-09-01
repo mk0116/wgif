@@ -18,7 +18,7 @@ module WGif
         custom: "-ss #{start_timestamp} -t 00:00:#{format('%06.3f', duration)}"
       }
       transcode(@clip, "/tmp/wgif/#{@name}/#{@name}-clip.mov", options)
-      WGif::Video.new "#{@name}-clip", "/tmp/wgif/#{@name}/#{@name}-clip.mov"
+      WGif::Video.new "#{@name}", "/tmp/wgif/#{@name}/#{@name}-clip.mov"
     end
 
     def to_frames(options = {})
