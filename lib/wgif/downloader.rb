@@ -49,7 +49,12 @@ module WGif
       FileUtils.mkdir_p "/tmp/wgif/#{id}"
       path = "/tmp/wgif/#{id}/#{id}"
       if video_file_name(id).nil?
-        YoutubeDL.download youtube_url, output: path
+        options = {
+          format: :worst,
+          output: path
+        }
+
+        YoutubeDL.download youtube_url, options
       end
       "/tmp/wgif/#{id}/#{video_file_name(id)}"
     end
