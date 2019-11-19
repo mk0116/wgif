@@ -13,12 +13,12 @@ module WGif
       FFMPEG.logger = @logger
     end
 
-    def trim(start_timestamp, duration)
+    def trim(start_timestamp, duration, path = nil)
       options = {
         custom: "-ss #{start_timestamp} -t 00:00:#{format('%06.3f', duration)}"
       }
-      transcode(@clip, "/tmp/wgif/#{@name}/#{@name}-clip.mov", options)
-      WGif::Video.new "#{@name}", "/tmp/wgif/#{@name}/#{@name}-clip.mov"
+      transcode(@clip, path || "/tmp/wgif/#{@name}/#{@name}-clip.mov", options)
+      WGif::Video.new "#{@name}", path || "/tmp/wgif/#{@name}/#{@name}-clip.mov"
     end
 
     def to_frames(options = {})
