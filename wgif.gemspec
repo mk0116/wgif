@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(/^(test|spec|features)\//)
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'rmagick', '4.1.2'
+  spec.add_dependency 'rmagick', '4.2.2'
   spec.add_dependency 'ruby-progressbar', '1.5.1'
   spec.add_dependency 'streamio-ffmpeg', '1.0.0'
   spec.add_dependency 'typhoeus', '~> 1.0.2'
