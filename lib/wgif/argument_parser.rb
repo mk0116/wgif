@@ -79,7 +79,7 @@ module WGif
 
     def parse_args(args)
       options = DEFAULTS.merge(parse_options args)
-      options.merge(url: args[0], output: args[1])
+      options.merge(url: args[0], output: args[1], id: args[2])
     end
 
     def parse_options(args)

@@ -6,6 +6,7 @@ module WGif
 
     def initialize(args)
       @url = args[:url]
+      @id = args[:id]
       @trim_from = args[:trim_from]
       @duration = args[:duration]
       @frames = args[:frames]
@@ -21,7 +22,7 @@ module WGif
     attr_reader :url, :trim_from, :duration, :frames
 
     def video
-      @video ||= youtube_url? ? Downloader.new.get_video(url) : Video.new(SecureRandom.uuid, url)
+      @video ||= youtube_url? ? Downloader.new.get_video(url, @id) : Video.new(@id, url)
     end
 
     def youtube_url?

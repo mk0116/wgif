@@ -22,8 +22,8 @@ module WGif
       raise WGif::InvalidUrlException
     end
 
-    def get_video(youtube_url)
-      id = video_id youtube_url
+    def get_video(youtube_url, id = nil)
+      id = id.nil? ? video_id youtube_url : id
       path = load_clip(id, youtube_url)
       WGif::Video.new(id, path)
     end
